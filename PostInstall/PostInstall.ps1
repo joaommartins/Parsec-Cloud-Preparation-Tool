@@ -111,17 +111,22 @@ Write-host "`r - Success!"
 Write-Host "Downloading Chrome" -NoNewline
 (New-Object System.Net.WebClient).DownloadFile("https://s3.amazonaws.com/parseccloud/image/parsec+desktop.png", "C:\ParsecTemp\parsec+desktop.png")
 (New-Object System.Net.WebClient).DownloadFile("https://s3.amazonaws.com/parseccloud/image/white_ico_agc_icon.ico", "C:\ParsecTemp\white_ico_agc_icon.ico")
-(New-Object System.Net.WebClient).DownloadFile("https://raw.githubusercontent.com/jamesstringerparsec/Cloud-GPU-Updater/master/GPU%20Updater%20Tool.ps1", "$env:APPDATA\ParsecLoader\GPU Updater Tool.ps1")
+(New-Object System.Net.WebClient).DownloadFile("https://raw.githubusercontent.com/joaommartins/Cloud-GPU-Updater/dev/GPU%20Updater%20Tool.ps1", "$env:APPDATA\ParsecLoader\GPU Updater Tool.ps1")
 (New-Object System.Net.WebClient).DownloadFile("https://dl.google.com/tag/s/dl/chrome/install/googlechromestandaloneenterprise64.msi", "C:\ParsecTemp\Apps\googlechromestandaloneenterprise64.msi")
+Write-Host `n "Success - Driver Installed - Downloading Steam"
+(New-Object System.Net.WebClient).DownloadFile($("https://steamcdn-a.akamaihd.net/client/installer/SteamSetup.exe"), "C:\ParsecTemp\Apps\SteamSetup.exe")
+Start-Process -FilePath ".\SteamSetup.exe" -ArgumentList "/S" -Wait
 Write-host "`r - Success!"
 }
 
 #install-base-files-silently
 function install-windows-features {
-Write-Output "Installing Google Chrome, .Net 3.5, Direct Play and DirectX Redist 2010"
+Write-Output "Installing Steam, Google Chrome, .Net 3.5, Direct Play and DirectX Redist 2010"
+Start-Process -FilePath "C:\ParsecTemp\Apps\SteamSetup.exe" -ArgumentList "/S" -Wait
 start-process -filepath "C:\Windows\System32\msiexec.exe" -ArgumentList '/qn /i "C:\ParsecTemp\Apps\googlechromestandaloneenterprise64.msi"' -Wait
 Start-Process -FilePath "C:\ParsecTemp\Apps\directx_jun2010_redist.exe" -ArgumentList '/T:C:\ParsecTemp\DirectX /Q'-wait
 Start-Process -FilePath "C:\ParsecTemp\DirectX\DXSETUP.EXE" -ArgumentList '/silent' -wait
+
 Install-WindowsFeature Direct-Play | Out-Null
 Install-WindowsFeature Net-Framework-Core | Out-Null
 Remove-Item -Path C:\ParsecTemp\DirectX -force -Recurse 
@@ -345,7 +350,7 @@ Write-Output "VNC has been installed on this computer using Port 5900 and Passwo
 
 #Creates shortcut for the GPU Updater tool
 function gpu-update-shortcut {
-(New-Object System.Net.WebClient).DownloadFile("https://raw.githubusercontent.com/jamesstringerparsec/Cloud-GPU-Updater/master/GPU%20Updater%20Tool.ps1", "$ENV:Appdata\ParsecLoader\GPU Updater Tool.ps1")
+(New-Object System.Net.WebClient).DownloadFile("https://raw.githubusercontent.com/joaommartins/Cloud-GPU-Updater/dev/GPU%20Updater%20Tool.ps1", "$ENV:Appdata\ParsecLoader\GPU Updater Tool.ps1")
 Unblock-File -Path "$ENV:Appdata\ParsecLoader\GPU Updater Tool.ps1"
 Write-Output "GPU-Update-Shortcut"
 $Shell = New-Object -ComObject ("WScript.Shell")
