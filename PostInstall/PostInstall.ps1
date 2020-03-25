@@ -115,7 +115,6 @@ Write-Host "Downloading Chrome" -NoNewline
 (New-Object System.Net.WebClient).DownloadFile("https://dl.google.com/tag/s/dl/chrome/install/googlechromestandaloneenterprise64.msi", "C:\ParsecTemp\Apps\googlechromestandaloneenterprise64.msi")
 Write-Host `n "Success - Driver Installed - Downloading Steam"
 (New-Object System.Net.WebClient).DownloadFile($("https://steamcdn-a.akamaihd.net/client/installer/SteamSetup.exe"), "C:\ParsecTemp\Apps\SteamSetup.exe")
-Start-Process -FilePath ".\SteamSetup.exe" -ArgumentList "/S" -Wait
 Write-host "`r - Success!"
 }
 
